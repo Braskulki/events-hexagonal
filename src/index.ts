@@ -1,3 +1,3 @@
 import 'reflect-metadata';
-import './util/module-alias';
+import './shared/module-alias';
 import './main';

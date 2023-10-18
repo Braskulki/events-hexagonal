@@ -1,4 +1,4 @@
-import './util/module-alias';
+import './shared/module-alias';
 import 'dotenv/config';
 
 import { Server } from '@src/adapters/REST/express-adapter';
