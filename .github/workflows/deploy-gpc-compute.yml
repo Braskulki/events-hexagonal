@@ -45,13 +45,10 @@ jobs:
           instance_name: 'events-mentorship'
           zone: 'us-east1-b'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          shell: bash
           script: |
             pwd
-           
             ls -al
-            
-            docker pull gcr.io/global-calling-402520/hexagonal-events:latest
-                        
+            docker pull gcr.io/global-calling-402520/hexagonal-events:latest         
             cd /general/infra
-            
             docker-compose up -d
