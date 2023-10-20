@@ -35,17 +35,16 @@ jobs:
         
       - name: Configure docker
         run: gcloud auth configure-docker gcr.io
-        
+
       - name: Push Docker image to Google Container Registry
         run: docker push gcr.io/global-calling-402520/hexagonal-events:latest
 
       - name: SSH into Compute Engine
-        uses: appleboy/ssh-action@master
+        uses: google-github-actions/ssh-compute@v0
         with:
-          host: ${{ secrets.HOST_IP }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
+          instance_name: 'events-mentorship'
+          zone: 'us-east1-b'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # Pull the Docker image
             docker pull gcr.io/global-calling-402520/hexagonal-events:latest
