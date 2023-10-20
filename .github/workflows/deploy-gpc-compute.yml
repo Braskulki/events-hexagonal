@@ -36,11 +36,12 @@ jobs:
           docker push gcr.io/global-calling-402520/hexagonal-events:latest
 
       - name: SSH into Compute Engine
-        uses: wzieba/ssh-action@v2
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_IP }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           script: |
             # Pull the Docker image
             docker pull gcr.io/global-calling-402520/hexagonal-events:latest
