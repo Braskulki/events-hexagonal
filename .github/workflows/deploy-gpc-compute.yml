@@ -39,6 +39,12 @@ jobs:
       - name: Push Docker image to Google Container Registry
         run: docker push gcr.io/global-calling-402520/hexagonal-events:latest
 
+      - name: Authenticate with Google Cloud
+        uses: GoogleCloudPlatform/github-actions/auth@v0
+        with:
+          credentials: ${{ secrets.GCP_SA_KEY }}
+          project_id: global-calling-402520
+    
       - name: SSH into Compute Engine
         uses: google-github-actions/ssh-compute@v0
         with:
