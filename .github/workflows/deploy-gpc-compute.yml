@@ -27,7 +27,7 @@ jobs:
       - name: Set up Google Cloud CLI
         uses: GoogleCloudPlatform/github-actions@v0
         with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
           project_id: global-calling-402520
           export_default_credentials: true
 
