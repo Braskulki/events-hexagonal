@@ -38,8 +38,8 @@ jobs:
       - name: SSH into Compute Engine
         uses: wzieba/ssh-action@v2
         with:
-          host: 35.237.81.171
-          username: yuri_simoes
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             # Pull the Docker image
