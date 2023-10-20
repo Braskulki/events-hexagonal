@@ -47,7 +47,6 @@ jobs:
           zone: 'us-east1-b'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
-            sudo su
             docker pull gcr.io/global-calling-402520/hexagonal-events:latest         
             cd /general/infra
             docker-compose up -d
