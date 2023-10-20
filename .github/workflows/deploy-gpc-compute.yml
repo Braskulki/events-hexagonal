@@ -46,11 +46,12 @@ jobs:
           zone: 'us-east1-b'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Pull the Docker image
-            docker pull gcr.io/global-calling-402520/hexagonal-events:latest
+            pwd
+           
+            ls -al
             
-            # Navigate to the directory where your Docker Compose file is located
+            docker pull gcr.io/global-calling-402520/hexagonal-events:latest
+                        
             cd /general/infra
             
-            # Start the Docker Compose stack
             docker-compose up -d
