@@ -30,10 +30,11 @@ jobs:
           service_account_key: ${{ secrets.GCP_SA_KEY }}
           project_id: global-calling-402520
 
-      - name: Build and push Docker image
-        run: |
-          docker build -t gcr.io/global-calling-402520/hexagonal-events:latest Dockerfile .
-          docker push gcr.io/global-calling-402520/hexagonal-events:latest
+      - name: Build Docker image
+        run: docker build -t gcr.io/global-calling-402520/hexagonal-events:latest -f Dockerfile .
+        
+      - name: Push Docker image to Google Container Registry
+        run: docker push gcr.io/global-calling-402520/hexagonal-events:latest
 
       - name: SSH into Compute Engine
         uses: appleboy/ssh-action@master
