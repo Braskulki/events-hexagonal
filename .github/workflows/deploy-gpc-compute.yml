@@ -29,7 +29,6 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
           project_id: global-calling-402520
-          export_default_credentials: true
 
       - name: Build Docker image
         run: docker build -t gcr.io/global-calling-402520/hexagonal-events:latest -f Dockerfile .
