@@ -46,7 +46,9 @@ jobs:
           zone: 'us-east1-b'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
-            ls    
+            sudo -s
+            gcloud auth login
+            gcloud auth configure-docker
             sudo docker pull gcr.io/global-calling-402520/hexagonal-events:latest
             cd /general/infra
             sudo docker compose up -d
