@@ -1,4 +1,4 @@
-import { HealthController } from './controllers/health-router';
+import { HealthController, UserController } from './controllers';
 import { createExpressServer } from 'routing-controllers';
 
 export class Server {
@@ -10,7 +10,7 @@ export class Server {
   start() {
     const app = createExpressServer({
       cors: {},
-      controllers: [HealthController]
+      controllers: [HealthController, UserController]
     });
 
     app.listen(this.port, () => {
