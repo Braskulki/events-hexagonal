@@ -50,7 +50,9 @@ jobs:
           command: |
             gcloud auth configure-docker
             docker pull gcr.io/global-calling-402520/hexagonal-events:latest
-            echo $HOME
+            ls
+            cd /home/yuri_simoes/general/infra
+            docker compose up -d
 
       - name: 'test'
         run: |-
