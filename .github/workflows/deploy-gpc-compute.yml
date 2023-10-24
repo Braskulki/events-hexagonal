@@ -39,7 +39,7 @@ jobs:
       - name: Push Docker image to Google Container Registry
         run: docker push gcr.io/global-calling-402520/hexagonal-events:latest
 
-      - id: 'compute-ssh'
+      - name: 'compute-ssh'
         uses: google-github-actions/ssh-compute@v0
         with:
           instance_name: 'events-mentorship'
@@ -47,11 +47,11 @@ jobs:
           user: yuri_simoes
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           command: |
-            gcloud auth docker-configure
+            gcloud auth configure-docker
             docker pull gcr.io/global-calling-402520/hexagonal-events:latest
             cd /general/infra
             docker compose up -d
 
-      - id: 'test'
-        run: |-
+      - name: 'test'
+        run: |
           echo '${{ steps.compute-ssh.outputs.stdout }}'
