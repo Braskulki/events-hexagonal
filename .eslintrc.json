@@ -13,6 +13,7 @@
   "rules": {
     "no-console": "error",
     "comma-dangle":"error",
-    "semi": "error"
+    "semi": "error",
+    "eol-last":"error"
   }
 }
