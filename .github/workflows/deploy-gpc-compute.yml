@@ -49,7 +49,7 @@ jobs:
           command: |
             gcloud auth configure-docker
             docker pull gcr.io/global-calling-402520/hexagonal-events:latest
-            ls
+            echo $HOME
 
       - name: 'test'
         run: |
