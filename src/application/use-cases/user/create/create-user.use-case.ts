@@ -4,6 +4,7 @@ import { inject, singleton } from 'tsyringe';
 import { IUserRepository } from '@src/domain/repositories/user-repository.interface';
 import { IAddressRepository } from '@src/domain/repositories/address-repository.interface';
 import { AddressModel } from '@src/domain/models/address.model';
+import KeycloakClient from '@src/adapters/authentication/keycloak/keycloak';
 
 @singleton()
 export class CreateUserUseCase implements ICreateUserUseCase {
@@ -17,7 +18,10 @@ export class CreateUserUseCase implements ICreateUserUseCase {
 
     if (userExists) throw new Error();
 
+    const { id } = await KeycloakClient.addUser({ email: data.email, password: data.password });
+
     const dataToSave: UserModel = {
+      id,
       name: data.name,
       email: data.email
     };

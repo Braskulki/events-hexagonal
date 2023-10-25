@@ -9,6 +9,7 @@ export interface UserModel extends BaseModel {
 export interface CreateUserModel {
   name: string;
   email: string;
+  password: string;
   address?: {
     street: string;
     number: string;
