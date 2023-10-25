@@ -4,13 +4,14 @@ import { inject, singleton } from 'tsyringe';
 import { IUserRepository } from '@src/domain/repositories/user-repository.interface';
 import { IAddressRepository } from '@src/domain/repositories/address-repository.interface';
 import { AddressModel } from '@src/domain/models/address.model';
-import KeycloakClient from '@src/adapters/authentication/keycloak/keycloak';
+import { IAuthenticationService } from '@src/domain/authentication/authentication.interface';
 
 @singleton()
 export class CreateUserUseCase implements ICreateUserUseCase {
   constructor(
     @inject('UserRepository') private readonly userRepository: IUserRepository,
-    @inject('AddressRepository') private readonly addressRepository: IAddressRepository
+    @inject('AddressRepository') private readonly addressRepository: IAddressRepository,
+    @inject('AuthenticationService') private readonly authenticationService: IAuthenticationService
   ) {}
 
   async execute(data: CreateUserModel): Promise<UserModel> {
@@ -18,7 +19,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
 
     if (userExists) throw new Error();
 
-    const { id } = await KeycloakClient.addUser({ email: data.email, password: data.password });
+    const { id } = await this.authenticationService.addUser({ email: data.email, password: data.password });
 
     const dataToSave: UserModel = {
       id,

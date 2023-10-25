@@ -1,8 +1,11 @@
 import KcAdminClient from '@keycloak/keycloak-admin-client';
+import { IAuthenticationService } from '@src/domain/authentication/authentication.interface';
+import { singleton } from 'tsyringe';
 
 const kcAdminClient = new KcAdminClient();
 
-export default class KeycloakClient {
+@singleton()
+export default class KeycloakClient implements IAuthenticationService {
   public static async start(): Promise<void> {
     kcAdminClient.setConfig({
       realmName: process.env.IDENTITYSERVER_REALM,
@@ -34,7 +37,7 @@ export default class KeycloakClient {
       });
   }
 
-  public static async addUser(
+  async addUser(
     user: {
       email: string;
       password: string;
