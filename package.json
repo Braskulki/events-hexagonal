@@ -23,7 +23,9 @@
     "pg": "^8.11.3",
     "reflect-metadata": "^0.1.13",
     "routing-controllers": "^0.10.4",
-    "typeorm": "^0.3.17"
+    "tsyringe": "^4.8.0",
+    "typeorm": "^0.3.17",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.4",
