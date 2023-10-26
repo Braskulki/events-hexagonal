@@ -20,11 +20,11 @@
 
 ## Roadmap task list
 
-- [ ] Initial project configuration
-- [ ] Create DB instance on elephantSQL
-- [ ] Configure Keycloak for application usage
+- [X] Initial project configuration
+- [X] Create DB instance on elephantSQL
+- [X] Configure Keycloak for application usage
 - [ ] Users
-  - [ ] Create
+  - [X] Create
   - [ ] Update
   - [ ] SelfDelete
 - [ ] Events
@@ -35,3 +35,20 @@
   - [ ] Buy
   - [ ] Refound
   - [ ] List bought
+
+## Keycloak configuration
+- run script for initial user inside docker container
+  - $HOME/keycloak/bin/add-user-keycloak.sh -u 'username' -p 'secpass' -r master
+- configure new realm
+  - clients -> service-backend
+    - access type -> confidential
+    - standard flow -> off
+    - direct access and service account -> on
+  - clients -> service-login
+    - mappers
+      - map properties that need to be on token
+  - service account roles
+    - realm-management
+      - manage users
+
+- add env variables to project
