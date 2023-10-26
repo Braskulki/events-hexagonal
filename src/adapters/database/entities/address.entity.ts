@@ -1,6 +1,6 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import Base from './base.entity';
-
+import EventEntity from './event.entity';
 
 @Entity({ name: 'address' })
 export default class AddressEntity extends Base {
@@ -24,4 +24,7 @@ export default class AddressEntity extends Base {
 
   @Column()
   public country?: string;
+
+  @OneToMany(() => EventEntity, (event) => event.address)
+  public events?: EventEntity[];
 }

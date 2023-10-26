@@ -5,6 +5,7 @@ import { IUserRepository } from '@src/domain/repositories/user-repository.interf
 import { IAddressRepository } from '@src/domain/repositories/address-repository.interface';
 import { AddressModel } from '@src/domain/models/address.model';
 import { IAuthenticationService } from '@src/domain/authentication/authentication.interface';
+import BusinessError from '@src/shared/errors/business-error';
 
 @singleton()
 export class CreateUserUseCase implements ICreateUserUseCase {
@@ -17,7 +18,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
   async execute(data: CreateUserModel): Promise<UserModel> {
     const userExists = await this.userRepository.findOne({ email: data.email });
 
-    if (userExists) throw new Error();
+    if (userExists) throw new BusinessError('User already registered', { email: data.email });
 
     const { id } = await this.authenticationService.addUser({ email: data.email, password: data.password });
 

@@ -1,5 +1,7 @@
 import { HealthController, UserController } from './controllers';
 import { createExpressServer } from 'routing-controllers';
+import { ErrorHandler } from './middlewares/error-handler';
+import { EventController } from './controllers/event-controller';
 
 export class Server {
   readonly port = process.env.PORT ?? 3000;
@@ -10,7 +12,11 @@ export class Server {
   start() {
     const app = createExpressServer({
       cors: {},
-      controllers: [HealthController, UserController]
+      defaultErrorHandler: false,
+      middlewares: [
+        ErrorHandler
+      ],
+      controllers: [HealthController, UserController, EventController]
     });
 
     app.listen(this.port, () => {

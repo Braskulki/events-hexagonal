@@ -4,6 +4,7 @@ import { CreateUserModel, UserModel } from '@src/domain/models/user.model';
 import { Body, JsonController, Post } from 'routing-controllers';
 import { container, inject, singleton } from 'tsyringe';
 
+
 @singleton()
 @JsonController('/user')
 export class UserController {
@@ -11,7 +12,7 @@ export class UserController {
     this.createUserUseCase = container.resolve<CreateUserUseCase>('CreateUserUseCase');
   }
 
-  @Post()
+  @Post('')
   async create(@Body() body: CreateUserModel): Promise<UserModel> {
     createUserValidation(body);
 

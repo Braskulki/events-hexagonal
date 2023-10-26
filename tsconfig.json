@@ -11,11 +11,12 @@
     "skipLibCheck": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "typeRoots": ["src/typings", "./node_modules/@types"],
     "paths": {
       "@src/*": ["./src/*"],
       "@adapters/*": ["./src/adapters/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

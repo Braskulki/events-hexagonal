@@ -52,3 +52,8 @@
       - manage users
 
 - add env variables to project
+
+
+## TypeORM
+- Create Migration
+  - npx typeorm migration:create ./src/adapters/database/migrations/MigrationName
