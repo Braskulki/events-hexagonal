@@ -37,3 +37,22 @@ export interface CreateEventModel {
     country: string;
   }
 }
+
+export interface UpdateEventModel {
+  name?: string;
+  idAddress?: string;
+  administrators?: string[];
+  ticketLimit?: number;
+  ticketPrice?: number;
+  startDate?: string;
+  endDate?: string;
+  address?: {
+    street: string;
+    number: string;
+    complement?: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+    country: string;
+  }
+}
