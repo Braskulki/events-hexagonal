@@ -1,7 +1,7 @@
 import KeycloakClient from '@src/adapters/authentication/keycloak/keycloak';
 import { AddressRepository, EventRepository, UserRepository } from '@src/adapters/database/repositories';
 import { CreateEventUseCase } from '@src/application/use-cases/event';
-import { CreateUserUseCase } from '@src/application/use-cases/user';
+import { CreateUserUseCase, SelfDeleteUserUseCase, UpdateUserUseCase } from '@src/application/use-cases/user';
 import { container } from 'tsyringe';
 
 export function injectContainers(): void {
@@ -10,6 +10,8 @@ export function injectContainers(): void {
   container.registerSingleton('EventRepository', EventRepository);
 
   container.registerSingleton('CreateUserUseCase', CreateUserUseCase);
+  container.registerSingleton('UpdateUserUseCase', UpdateUserUseCase);
+  container.registerSingleton('SelfDeleteUserUseCase', SelfDeleteUserUseCase);
 
   container.registerSingleton('CreateEventUseCase', CreateEventUseCase);
 
