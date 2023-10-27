@@ -6,7 +6,7 @@ import {
   SelfDeleteUserUseCase,
   UpdateUserUseCase
 } from '@src/application/use-cases/user';
-import { createUserValidation } from '@src/application/validators/user.validators';
+import { createUserValidation, updateUserValidation } from '@src/application/validators/user.validators';
 import { CreateUserModel, UpdateUserModel, UserModel } from '@src/domain/models/user.model';
 import { Body, Delete, JsonController, Post, Put, Req, Res, UseBefore } from 'routing-controllers';
 import { container, inject, singleton } from 'tsyringe';
@@ -40,6 +40,7 @@ export class UserController {
   @Put('')
   @UseBefore(authenticate)
   async update(@Body() body: UpdateUserModel, @Req() req: Request): Promise<UserModel> {
+    updateUserValidation(body);
     const user = await this.updateUserUseCase.execute(body, req.session);
 
     return user;
