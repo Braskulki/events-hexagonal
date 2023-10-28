@@ -4,7 +4,6 @@ import { z } from 'zod';
 export function createEventValidation(data: CreateEventModel): void {
   const schema = z.object({
     name: z.string(),
-    email: z.string(),
     administrators: z.array(z.string()).optional(),
     ticketLimit: z.number().optional(),
     ticketPrice: z.number().optional(),
@@ -27,7 +26,6 @@ export function createEventValidation(data: CreateEventModel): void {
 export function updateEventValidation(data: UpdateEventModel): void {
   const schema = z.object({
     name: z.string().optional(),
-    email: z.string().optional(),
     administrators: z.array(z.string()).optional(),
     ticketLimit: z.number().optional(),
     ticketPrice: z.number().optional(),

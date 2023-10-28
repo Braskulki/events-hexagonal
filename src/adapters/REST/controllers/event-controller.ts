@@ -1,10 +1,18 @@
-import { CreateEventUseCase, ICreateEventUseCase, IUpdateEventUseCase, UpdateEventUseCase } from '@src/application/use-cases/event';
+import {
+  CreateEventUseCase,
+  ICreateEventUseCase,
+  IListEventUseCase,
+  IUpdateEventUseCase,
+  ListEventUseCase,
+  UpdateEventUseCase
+} from '@src/application/use-cases/event';
 import { createEventValidation, updateEventValidation } from '@src/application/validators/event.validators';
-import { CreateEventModel, EventModel } from '@src/domain/models/event.model';
-import { Body, JsonController, Post, Put, Req, UseBefore, Param } from 'routing-controllers';
+import { CreateEventModel, EventModel, EventSearchParams } from '@src/domain/models/event.model';
+import { Body, JsonController, Post, Put, Req, UseBefore, Param, Get, QueryParams } from 'routing-controllers';
 import { container, inject, singleton } from 'tsyringe';
 import authenticate from '../middlewares/authenticate';
 import { Request } from 'express';
+import { IPaginationResponse } from '@src/domain/models/base.model';
 
 
 @singleton()
@@ -12,10 +20,12 @@ import { Request } from 'express';
 export class EventController {
   constructor(
     @inject('CreateEventUseCase') private readonly createEventUseCase: ICreateEventUseCase,
-    @inject('UpdateEventUseCase') private readonly updateEventUseCase: IUpdateEventUseCase
+    @inject('UpdateEventUseCase') private readonly updateEventUseCase: IUpdateEventUseCase,
+    @inject('ListEventUseCase') private readonly listEventUseCase: IListEventUseCase
   ) {
     this.createEventUseCase = container.resolve<CreateEventUseCase>('CreateEventUseCase');
     this.updateEventUseCase = container.resolve<UpdateEventUseCase>('UpdateEventUseCase');
+    this.listEventUseCase = container.resolve<ListEventUseCase>('ListEventUseCase');
   }
 
   @Post('')
@@ -34,6 +44,26 @@ export class EventController {
     updateEventValidation(body);
 
     const event = await this.updateEventUseCase.execute(id, body, req.session);
+
+    return event;
+  }
+
+  @Get('')
+  async list(
+    @QueryParams() params: EventSearchParams
+  ): Promise<IPaginationResponse<EventModel>> {
+    const event = await this.listEventUseCase.execute(params);
+
+    return event;
+  }
+
+  @Get('/my-events')
+  @UseBefore(authenticate)
+  async listMyEvent(
+    @QueryParams() params: EventSearchParams,
+    @Req() req: Request
+  ): Promise<IPaginationResponse<EventModel>> {
+    const event = await this.listEventUseCase.execute({ ...params, myEvents: true }, req.session);
 
     return event;
   }

@@ -15,9 +15,14 @@ export class CreateEventUseCase implements ICreateEventUseCase {
   ) {}
 
   async execute(data: CreateEventModel, session: AuthSession): Promise<EventModel> {
+    const administrators: string[] = data.administrators ?? [];
+    if (!administrators.find((i) => i === session.idUser)) {
+      administrators.push(session.idUser);
+    }
+
     const dataToSave: EventModel = {
       name: data.name,
-      administrators: data.administrators,
+      administrators,
       ticketLimit: data.ticketLimit,
       ticketPrice: data.ticketPrice,
       startDate: data.startDate,

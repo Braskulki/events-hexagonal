@@ -19,10 +19,15 @@ export class UpdateEventUseCase implements IUpdateEventUseCase {
 
     if (!eventExists) throw new BusinessError('Event not found');
 
+    const administrators: string[] = data.administrators ?? eventExists.administrators ?? [];
+    if (!administrators.find((i) => i === session.idUser)) {
+      administrators.push(session.idUser);
+    }
+
     const dataToSave: EventModel = {
       ...eventExists,
       ...(data.name && { name: data.name }),
-      ...(data.administrators && { administrators: data.administrators }),
+      ...(administrators && { administrators: administrators }),
       ...(data.ticketLimit && { ticketLimit: data.ticketLimit }),
       ...(data.ticketPrice && { ticketPrice: data.ticketPrice }),
       ...(data.startDate && { startDate: data.startDate }),

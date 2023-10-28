@@ -1,4 +1,4 @@
-import BaseModel from './base.model';
+import BaseModel, { ISearchParams } from './base.model';
 
 export interface EventModel extends BaseModel {
   name: string;
@@ -55,4 +55,17 @@ export interface UpdateEventModel {
     state: string;
     country: string;
   }
+}
+
+export interface EventSearchParams extends ISearchParams {
+  name?: string;
+  ticketPrice?: number;
+  startDate?: string;
+  endDate?: string;
+  address?: {
+    city?: string;
+    state?: string;
+    country?: string;
+  },
+  myEvents?: boolean;
 }
