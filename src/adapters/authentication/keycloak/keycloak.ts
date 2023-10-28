@@ -60,4 +60,50 @@ export default class KeycloakClient implements IAuthenticationService {
 
     return userCreated;
   }
+
+  async updateUser(
+    data: {
+      id: string;
+      newEmail?: string;
+    }
+  ): Promise<void> {
+    await KeycloakClient.getToken();
+    await kcAdminClient.users
+      .update(
+        {
+          id: data.id
+        },
+        {
+          ...(data.newEmail && { email: data.newEmail }),
+          ...(data.newEmail && { username: data.newEmail })
+        }
+      )
+      .catch((err) => {
+        throw new Error('KeycloakClient', err);
+      });
+  }
+
+  async updatePassword(user: { id: string; password: string }): Promise<void> {
+    await KeycloakClient.getToken();
+
+    await kcAdminClient.users
+      .resetPassword({
+        id: user.id,
+        credential: {
+          type: 'password',
+          value: user.password,
+          temporary: false
+        }
+      })
+      .catch((err) => {
+        throw new Error('KeycloakClient', err);
+      });
+  }
+
+  async delete(userId: string): Promise<void> {
+    await KeycloakClient.getToken();
+    await kcAdminClient.users.del({ id: userId }).catch((err) => {
+      throw new Error('KeycloakClient', err);
+    });
+  }
 }

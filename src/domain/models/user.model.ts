@@ -20,3 +20,19 @@ export interface CreateUserModel {
     country: string;
   }
 }
+
+export interface UpdateUserModel {
+  name?: string;
+  email?: string;
+  password?: string;
+  address?: {
+    street: string;
+    number: string;
+    complement?: string;
+    neighborhood: string;
+    city: string;
+    state: string;
+    country: string;
+  }
+}
+
