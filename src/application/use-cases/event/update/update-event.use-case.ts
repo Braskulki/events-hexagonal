@@ -1,5 +1,5 @@
-import { CreateEventModel, EventModel } from '@src/domain/models/event.model';
-import { ICreateEventUseCase } from './create-event.interface';
+import { EventModel, UpdateEventModel } from '@src/domain/models/event.model';
+import { IUpdateEventUseCase } from './update-event.interface';
 import { inject, singleton } from 'tsyringe';
 import { IEventRepository } from '@src/domain/repositories/event-repository.interface';
 import { IAddressRepository } from '@src/domain/repositories/address-repository.interface';
@@ -8,34 +8,37 @@ import BusinessError from '@src/shared/errors/business-error';
 import { AuthSession } from '@src/shared/auth.interface';
 
 @singleton()
-export class CreateEventUseCase implements ICreateEventUseCase {
+export class UpdateEventUseCase implements IUpdateEventUseCase {
   constructor(
     @inject('EventRepository') private readonly eventRepository: IEventRepository,
     @inject('AddressRepository') private readonly addressRepository: IAddressRepository
   ) {}
 
-  async execute(data: CreateEventModel, session: AuthSession): Promise<EventModel> {
-    const administrators: string[] = data.administrators ?? [];
+  async execute(id: string, data: UpdateEventModel, session: AuthSession): Promise<EventModel> {
+    const eventExists = await this.eventRepository.findOne({ id });
+
+    if (!eventExists) throw new BusinessError('Event not found');
+
+    const administrators: string[] = data.administrators ?? eventExists.administrators ?? [];
     if (!administrators.find((i) => i === session.idUser)) {
       administrators.push(session.idUser);
     }
 
     const dataToSave: EventModel = {
-      name: data.name,
-      administrators,
-      ticketLimit: data.ticketLimit,
-      ticketPrice: data.ticketPrice,
-      startDate: data.startDate,
-      endDate: data.endDate,
-      createdBy: session.idUser
+      ...eventExists,
+      ...(data.name && { name: data.name }),
+      ...(administrators && { administrators: administrators }),
+      ...(data.ticketLimit && { ticketLimit: data.ticketLimit }),
+      ...(data.ticketPrice && { ticketPrice: data.ticketPrice }),
+      ...(data.startDate && { startDate: data.startDate }),
+      ...(data.endDate && { endDate: data.endDate }),
+      updatedBy: session.idUser,
+      updatedAt: new Date()
     };
 
     if (data.address) {
-      const eventExists = await this.eventRepository.findOne(data);
-
-      if (eventExists) throw new BusinessError('Already an event on this address', { teste: true });
-
       const addressToSave: AddressModel = {
+        ...(eventExists.idAddress && { id: eventExists.idAddress }),
         street: data.address.street,
         number: data.address.number,
         complement: data.address.complement,

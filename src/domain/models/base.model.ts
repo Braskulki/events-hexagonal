@@ -7,4 +7,15 @@ interface BaseModel {
   deletedAt?: Date;
 }
 
+export interface ISearchParams {
+  limit?: number;
+  page?: number;
+
+}
+
+export interface IPaginationResponse<T> {
+  rows: T[],
+  count: number
+}
+
 export default BaseModel;
