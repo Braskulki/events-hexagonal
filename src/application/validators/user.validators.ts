@@ -5,6 +5,7 @@ export function createUserValidation(data: CreateUserModel): void {
   const schema = z.object({
     name: z.string(),
     email: z.string(),
+    password: z.string().min(5),
     address: z.object({
       street: z.string(),
       number: z.string(),
