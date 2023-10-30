@@ -2,6 +2,7 @@ import { HealthController, UserController } from './controllers';
 import { createExpressServer } from 'routing-controllers';
 import { ErrorHandler } from './middlewares/error-handler';
 import { EventController } from './controllers/event-controller';
+import { TicketController } from './controllers/ticket-controller';
 
 export class Server {
   readonly port = process.env.PORT ?? 3000;
@@ -16,7 +17,12 @@ export class Server {
       middlewares: [
         ErrorHandler
       ],
-      controllers: [HealthController, UserController, EventController]
+      controllers: [
+        HealthController,
+        UserController,
+        EventController,
+        TicketController
+      ]
     });
 
     app.listen(this.port, () => {

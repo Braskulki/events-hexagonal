@@ -1,8 +1,9 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import Base from './base.entity';
 import AddressEntity from './address.entity';
 import { EventModel } from '@src/domain/models/event.model';
 import { AddressModel } from '@src/domain/models/address.model';
+import TicketEntity from './ticket.entity';
 
 @Entity({ name: 'event' })
 export default class EventEntity extends Base {
@@ -31,6 +32,11 @@ export default class EventEntity extends Base {
   @JoinColumn({ name: 'id_address' })
   public address?: AddressEntity;
 
+  @OneToMany(() => TicketEntity, (ticket) => ticket.event)
+  public tickets?: TicketEntity[];
+
+  ticketsBought?: number;
+
   entityToModel(): EventModel {
     return {
       id: this.id,
@@ -38,10 +44,11 @@ export default class EventEntity extends Base {
       idAddress: this.idAddress,
       administrators: this.administrators,
       ticketLimit: this.ticketLimit,
-      ticketPrice: this.ticketPrice,
+      ticketPrice: parseFloat(String(this.ticketPrice) ?? '0'),
       startDate: this.startDate?.toISOString() as string,
       endDate: this.endDate?.toISOString() as string,
       address: this.address as AddressModel | undefined,
+      ticketsBought: this.ticketsBought,
       createdBy: this.createdBy,
       createdAt: this.createdAt,
       updatedBy: this.updatedBy,

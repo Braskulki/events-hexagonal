@@ -48,9 +48,16 @@ export class EventRepository implements IEventRepository {
 
     const event = await this.repository.findOne({ where });
 
-    if (!event) return null;
+    return event ? event.entityToModel() : null;
+  }
 
-    return event.entityToModel();
+  async findById(id: string): Promise<EventModel | null> {
+    const event = await this.repository.createQueryBuilder('event')
+      .loadRelationCountAndMap('event.ticketsBought', 'event.tickets', 'tickets')
+      .where({ id })
+      .getOne();
+
+    return event ? event.entityToModel() : null;
   }
 
   async searchPagination(params: EventSearchParams, session?: AuthSession): Promise<IPaginationResponse<EventModel>> {
@@ -77,6 +84,8 @@ export class EventRepository implements IEventRepository {
     if (params.myEvents && session?.idUser) {
       qb.andWhere(`event.administrators @> ARRAY[UUID('${session.idUser}')]`);
     }
+
+    qb.loadRelationCountAndMap('event.ticketsBought', 'event.tickets', 'tickets');
 
     const limit = params.limit ? params.limit : 10;
     const skip = params.page ? params.page * limit : 0;

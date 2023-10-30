@@ -8,6 +8,7 @@ export interface EventModel extends BaseModel {
   ticketPrice?: number;
   startDate: string;
   endDate: string;
+  ticketsBought?: number;
   address?: {
     street: string;
     number: string;
