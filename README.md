@@ -23,18 +23,17 @@
 - [X] Initial project configuration
 - [X] Create DB instance on elephantSQL
 - [X] Configure Keycloak for application usage
-- [ ] Users
+- [X] Users
   - [X] Create
-  - [ ] Update
-  - [ ] SelfDelete
-- [ ] Events
-  - [ ] Create
-  - [ ] Update
-  - [ ] Delete
-- [ ] Tickets
-  - [ ] Buy
-  - [ ] Refound
-  - [ ] List bought
+  - [X] Update
+  - [X] SelfDelete
+- [X] Events
+  - [X] Create
+  - [X] Update
+  - [X] Delete
+- [X] Tickets
+  - [X] Buy
+  - [X] List bought
 
 ## Keycloak configuration
 - run script for initial user inside docker container
