@@ -35,6 +35,13 @@
   - [X] Buy
   - [X] List bought
 
+## Starting the project
+- run docker compose without the project - only keycloak and postgres
+    - docker compose up -d postgres keycloak
+- configure keycloak as the following step
+- update env's from project on file .env
+- `npm run dev` for local running or `docker compose up -d` for docker run
+
 ## Keycloak configuration
 - run script for initial user inside docker container
   - $HOME/keycloak/bin/add-user-keycloak.sh -u 'username' -p 'secpass' -r master
